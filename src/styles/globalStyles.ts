@@ -9,6 +9,11 @@ export default css`
     --alert-zindex: 11;
   }
 
+  #root {
+    width: 100%;
+    height: 100%;
+  }
+
   html,
   body,
   div,
