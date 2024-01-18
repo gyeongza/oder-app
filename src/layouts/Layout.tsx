@@ -22,7 +22,7 @@ function Layout({ children, isHome = false }: LayoutProps) {
 const layoutContainerStyles = (isHome: boolean | undefined) => css`
   background-color: ${isHome ? colors.black : colors.white};
   max-width: 600px;
-  height: 100vh;
+  height: 100%;
   margin: 0 auto;
 `;
 

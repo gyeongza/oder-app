@@ -15,15 +15,26 @@ function Home() {
 
   return (
     <Layout isHome={true}>
-      <Flex direction="column" align="center" css={homeContainerStyles}>
-        <MainLogo />
-        <OrderButton onClick={goToOrderPage}>주문하러 가기</OrderButton>
+      <Flex
+        direction="column"
+        justify="center"
+        align="center"
+        css={homeContainerStyles}
+      >
+        <Flex direction="column" align="center" css={containerStyles}>
+          <MainLogo />
+          <OrderButton onClick={goToOrderPage}>주문하러 가기</OrderButton>
+        </Flex>
       </Flex>
     </Layout>
   );
 }
 
 const homeContainerStyles = css`
+  height: 100vh;
+`;
+
+const containerStyles = css`
   gap: 40px;
 `;
 
