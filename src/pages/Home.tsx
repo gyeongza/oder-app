@@ -4,6 +4,7 @@ import { colors } from '../styles/colorPalette';
 import Flex from '../components/common/Flex';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
+import Layout from '../layouts/Layout';
 
 function Home() {
   const navigate = useNavigate();
@@ -13,21 +14,14 @@ function Home() {
   };
 
   return (
-    <Flex direction="column" justify="center" css={containerStyles}>
+    <Layout isHome={true}>
       <Flex direction="column" align="center" css={homeContainerStyles}>
         <MainLogo />
         <OrderButton onClick={goToOrderPage}>주문하러 가기</OrderButton>
       </Flex>
-    </Flex>
+    </Layout>
   );
 }
-
-const containerStyles = css`
-  background-color: ${colors.black};
-  max-width: 600px;
-  height: 100vh;
-  margin: 0 auto;
-`;
 
 const homeContainerStyles = css`
   gap: 40px;
