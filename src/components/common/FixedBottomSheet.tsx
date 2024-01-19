@@ -4,14 +4,22 @@ import { colors } from '../../styles/colorPalette';
 import Text from './Text';
 import Button from './Button';
 import styled from '@emotion/styled';
+import { useRecoilValue } from 'recoil';
+import {
+  cartTotalPriceSelector,
+  cartTotalQuantitySelector,
+} from '../../atoms/cart';
 
 function FixedBottomSheet() {
+  const totalPrice = useRecoilValue(cartTotalPriceSelector);
+  const totalQuantity = useRecoilValue(cartTotalQuantitySelector);
+
   return (
     <BottomSheetContainer>
       <Flex direction="column" css={containerStyles}>
         <Flex direction="column" align="flex-end">
-          <Text>총 수량</Text>
-          <Text>총 가격</Text>
+          <Text>총 수량 : {totalQuantity}</Text>
+          <Text>총 가격 : {totalPrice} </Text>
         </Flex>
         <Flex justify="center">
           <Button css={orderButtonStyles}>주문하기</Button>

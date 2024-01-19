@@ -7,15 +7,18 @@ import Text from '../common/Text';
 import Spacing from '../common/Spacing';
 import { Product } from '../../models/product';
 import Bedge from '../common/Bedge';
+import useCartState from '../../hooks/useCartState';
 
 interface OrderItemProps {
   product: Product;
 }
 
 function OrderItem({ product }: OrderItemProps) {
+  const { quantity } = useCartState(product.id);
+
   return (
     <div>
-      <Flex as="li" css={itemListStyles}>
+      <Flex as="li" css={itemListStyles(quantity)}>
         <ProductImage />
 
         <Flex direction="column" justify="space-between" css={itemValueStyles}>
@@ -26,7 +29,12 @@ function OrderItem({ product }: OrderItemProps) {
 
           <Flex justify="space-between">
             <InputStepper id={product.id} />
-            <Text>{product.price.toLocaleString('ko-KR')}원</Text>
+            <Text>
+              {quantity
+                ? (quantity * product.price).toLocaleString('ko-KR')
+                : product.price.toLocaleString('ko-KR')}
+              원
+            </Text>
           </Flex>
         </Flex>
       </Flex>
@@ -41,8 +49,8 @@ const ProductImage = styled.div`
   background-color: ${colors.grey};
 `;
 
-const itemListStyles = css`
-  background-color: ${colors.white};
+const itemListStyles = (quantity: number) => css`
+  background-color: ${quantity > 0 ? colors.orange10 : colors.white};
   border-radius: 15px;
   border: 1px solid ${colors.grey};
   padding: 9px 12px;

@@ -13,8 +13,8 @@ function Order() {
         fallback={<Text textAlign="center">목록을 불러오는 중입니다.</Text>}
       >
         <OrderList />
+        <FixedBottomSheet />
       </Suspense>
-      <FixedBottomSheet />
     </Layout>
   );
 }

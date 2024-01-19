@@ -1,22 +1,33 @@
 import { css } from '@emotion/react';
 import Flex from '../common/Flex';
-import Text from '../common/Text';
 import styled from '@emotion/styled';
 import useCartState from '../../hooks/useCartState';
+import { ChangeEvent, useCallback } from 'react';
 
 interface InputStepperProps {
   id: string;
 }
 
 function InputStepper({ id }: InputStepperProps) {
-  const { currentQuantity, increaseQuantity, decreaseQuantity } =
+  const { quantity, increaseQuantity, decreaseQuantity, handleQuantityChange } =
     useCartState(id);
+
+  const onChangeQuantity = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      handleQuantityChange(e.target.value);
+    },
+    [handleQuantityChange],
+  );
 
   return (
     <Flex>
       <Flex align="center" css={stepperContainerStyles}>
         <DecreaseButton onClick={decreaseQuantity}>-</DecreaseButton>
-        <Text css={quantityTextStyles}>{currentQuantity}</Text>
+        <input
+          css={quantityInputStyles}
+          value={quantity}
+          onChange={onChangeQuantity}
+        />
         <IncreaseButton onClick={increaseQuantity}>+</IncreaseButton>
       </Flex>
     </Flex>
@@ -32,9 +43,11 @@ const DecreaseButton = styled.button`
   padding: 3px;
 `;
 
-const quantityTextStyles = css`
+const quantityInputStyles = css`
   width: 30px;
   text-align: center;
+  border: none;
+  font-size: 18px;
 `;
 
 const IncreaseButton = styled.button`

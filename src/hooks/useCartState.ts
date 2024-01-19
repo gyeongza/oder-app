@@ -1,49 +1,71 @@
 import { useRecoilState } from 'recoil';
 import { cartState } from '../atoms/cart';
+import { useEffect, useState } from 'react';
 
 const useCartState = (productId: string) => {
+  const initialQuantity = 0;
   const [cartList, setCartList] = useRecoilState(cartState);
+  const [quantity, setQuantity] = useState(initialQuantity);
 
-  const currentQuantity =
-    cartList.find((item) => item.id === productId)?.quantity || 0;
+  useEffect(() => {
+    const productInCart = cartList.find((item) => item.id === productId);
 
-  const increaseQuantity = () => {
+    setQuantity(productInCart?.quantity || 0);
+  }, [cartList, productId]);
+
+  const updateCartList = (newQuantity: number) => {
     setCartList((prevCartList) => {
-      const existingItem = prevCartList.find(
+      const existingItemIndex = prevCartList.findIndex(
         (product) => product.id === productId,
       );
 
-      if (existingItem) {
-        return prevCartList.map((product) =>
-          product.id === productId
-            ? { ...product, quantity: product.quantity + 1 }
-            : product,
-        );
+      if (existingItemIndex >= 0) {
+        const newCartList = [...prevCartList];
+        newCartList[existingItemIndex] = {
+          ...newCartList[existingItemIndex],
+          quantity: newQuantity,
+        };
+
+        return newCartList;
       } else {
-        return [...prevCartList, { id: productId, quantity: 1 }];
+        return [...prevCartList, { id: productId, quantity: newQuantity }];
       }
     });
+  };
+
+  const increaseQuantity = () => {
+    if (quantity >= 999) return;
+
+    const newQuantity = quantity + 1;
+
+    setQuantity(newQuantity);
+    updateCartList(newQuantity);
   };
 
   const decreaseQuantity = () => {
-    setCartList((prevCartList) => {
-      const existingItem = prevCartList.find(
-        (product) => product.id === productId,
-      );
+    if (quantity <= 0) return;
 
-      if (existingItem) {
-        return prevCartList.map((product) =>
-          product.id === productId
-            ? { ...product, quantity: product.quantity - 1 }
-            : product,
-        );
-      } else {
-        return [...prevCartList, { id: productId, quantity: 1 }];
-      }
-    });
+    const newQuantity = quantity - 1;
+
+    setQuantity(newQuantity);
+    updateCartList(newQuantity);
   };
 
-  return { currentQuantity, increaseQuantity, decreaseQuantity };
+  const handleQuantityChange = (inputValue: string) => {
+    const inputNumber = parseInt(inputValue, 10);
+
+    if (isNaN(inputNumber) || inputNumber < 0 || inputNumber > 999) return;
+
+    setQuantity(inputNumber);
+    updateCartList(inputNumber);
+  };
+
+  return {
+    quantity,
+    increaseQuantity,
+    decreaseQuantity,
+    handleQuantityChange,
+  };
 };
 
 export default useCartState;
