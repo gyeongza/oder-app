@@ -1,6 +1,6 @@
-import { Item } from '../models/item';
+import { Product } from '../models/product';
 import { request } from './fetch';
 
 export const getItemList = () => {
-  return request.get<Item[]>('/items');
+  return request.get<Product[]>('/items');
 };
