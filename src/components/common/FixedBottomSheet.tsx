@@ -9,20 +9,53 @@ import {
   cartTotalPriceSelector,
   cartTotalQuantitySelector,
 } from '../../atoms/cart';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 function FixedBottomSheet() {
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
   const totalPrice = useRecoilValue(cartTotalPriceSelector);
   const totalQuantity = useRecoilValue(cartTotalQuantitySelector);
+
+  const handleOrderButton = () => {
+    setIsLoading(true);
+
+    setTimeout(() => {
+      const random = Math.random() < 0.5;
+
+      if (random) {
+        navigate('/complete');
+      } else {
+        navigate('/error');
+      }
+
+      setIsLoading(false);
+    }, 2000);
+  };
 
   return (
     <BottomSheetContainer>
       <Flex direction="column" css={containerStyles}>
         <Flex direction="column" align="flex-end">
           <Text>총 수량 : {totalQuantity}</Text>
-          <Text>총 가격 : {totalPrice} </Text>
+          <Text>총 가격 : {totalPrice.toLocaleString('kr-KR')} </Text>
         </Flex>
         <Flex justify="center">
-          <Button css={orderButtonStyles}>주문하기</Button>
+          {isLoading ? (
+            <Button disabled={true} css={orderButtonStyles} color="success">
+              로딩중...
+            </Button>
+          ) : (
+            <Button
+              disabled={Boolean(totalQuantity) === false}
+              css={orderButtonStyles}
+              onClick={handleOrderButton}
+            >
+              주문하기
+            </Button>
+          )}
         </Flex>
       </Flex>
     </BottomSheetContainer>
