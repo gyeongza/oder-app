@@ -1,5 +1,4 @@
 import { css } from '@emotion/react';
-import Flex from '../components/common/Flex';
 import { colors } from '../styles/colorPalette';
 
 interface LayoutProps {
@@ -8,15 +7,7 @@ interface LayoutProps {
 }
 
 function Layout({ children, isHome = false }: LayoutProps) {
-  return (
-    <Flex
-      direction="column"
-      justify="center"
-      css={layoutContainerStyles(isHome)}
-    >
-      {children}
-    </Flex>
-  );
+  return <div css={layoutContainerStyles(isHome)}>{children}</div>;
 }
 
 const layoutContainerStyles = (isHome: boolean | undefined) => css`

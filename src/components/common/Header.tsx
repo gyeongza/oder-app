@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 function Header() {
   return (
-    <Flex align="center" css={headerContainer}>
+    <Flex as="header" align="center" css={headerContainer}>
       <Link to="/" css={logoContainer}>
         <HeaderLogo />
       </Link>
@@ -15,8 +15,6 @@ function Header() {
 }
 
 const headerContainer = css`
-  position: sticky;
-  top: 0;
   max-width: 600px;
   height: 57px;
   margin: 0 auto;

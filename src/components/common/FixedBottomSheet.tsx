@@ -3,11 +3,12 @@ import Flex from './Flex';
 import { colors } from '../../styles/colorPalette';
 import Text from './Text';
 import Button from './Button';
+import styled from '@emotion/styled';
 
 function FixedBottomSheet() {
   return (
-    <Flex justify="center" css={bottomSheetContainer}>
-      <Flex direction="column" justify="center" css={containerStyles}>
+    <BottomSheetContainer>
+      <Flex direction="column" css={containerStyles}>
         <Flex direction="column" align="flex-end">
           <Text>총 수량</Text>
           <Text>총 가격</Text>
@@ -16,31 +17,33 @@ function FixedBottomSheet() {
           <Button css={orderButtonStyles}>주문하기</Button>
         </Flex>
       </Flex>
-    </Flex>
+    </BottomSheetContainer>
   );
 }
 
-const bottomSheetContainer = css`
-  position: sticky;
+const BottomSheetContainer = styled.div`
+  position: fixed;
+  left: 0;
+  right: 0;
   bottom: 0;
   max-width: 600px;
   height: 170px;
   margin: 0 auto;
-  z-index: 10;
   box-shadow: 0 -5px 8px 0 ${colors.grey};
   border-radius: 20px 20px 0 0;
+  z-index: 10;
 `;
 
 const containerStyles = css`
-  width: 500px;
+  max-width: 500px;
   gap: 18px;
-  padding: 23px 27px;
+  margin: 0 auto;
+  padding: 20px;
 `;
 
 const orderButtonStyles = css`
   width: 100%;
   height: 48px;
-  padding: 18px 27px;
 `;
 
 export default FixedBottomSheet;
